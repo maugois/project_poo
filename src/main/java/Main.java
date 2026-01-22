@@ -1,4 +1,5 @@
 import accounts.ContaCorrente;
+import accounts.ContaPoupanca;
 import entities.Cliente;
 
 import java.util.Scanner;
@@ -6,7 +7,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner inData = new Scanner(System.in);
-        
+        Cliente cli = new Cliente("Vitor", "321.445.555-88", "cliente@gmail.com");
+        ContaCorrente currentAccount = new ContaCorrente( 123456, 1500, cli);
+        ContaPoupanca savingsAccount = new ContaPoupanca( 123451500, 10000, cli);
+
         System.out.println("\n--- SISTEMA BANCÁRIO ---\n");
         System.out.println("Informe o número da opção desejada: \n");
 
@@ -20,15 +24,6 @@ public class Main {
                 "0 - Sair\n");
 
         String option = inData.nextLine();
-
-        System.out.println("Informe seu nome: ");
-        String name = inData.nextLine();
-        System.out.println("Informe seu cpf: ");
-        String cpf = inData.nextLine();
-        System.out.println("Informe seu e-mail: ");
-        String email = inData.nextLine();
-
-        Cliente cli = new Cliente(name, cpf, email);
 
         switch (option) {
             case "1": // depositar
