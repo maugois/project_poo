@@ -7,56 +7,66 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner inData = new Scanner(System.in);
-        Cliente cli = new Cliente("Vitor", "321.445.555-88", "cliente@gmail.com");
-        ContaCorrente currentAccount = new ContaCorrente( 123456, 1500, cli);
-        ContaPoupanca savingsAccount = new ContaPoupanca( 123451500, 10000, cli);
+        Cliente cliente = new Cliente("Vitor", "321.445.555-88", "cliente@gmail.com");
+        ContaCorrente contaCorrente = new ContaCorrente(123456, 1500, cliente);
+        ContaPoupanca contaPoupanca = new ContaPoupanca(654321, 10000, cliente);
 
-        System.out.println("\n--- SISTEMA BANCÁRIO ---\n");
-        System.out.println("Informe o número da opção desejada: \n");
+        cliente.adicionarConta(contaCorrente);
+        cliente.adicionarConta(contaPoupanca);
 
-        System.out.println("1 - Depositar \n" +
-                "2 - Sacar \n" +
-                "3 - Transferir (Após selecionado, as seguintes opções aparecerão) \n" +
-                "\t1 - De accounts.Conta Corrente para Poupança \n" +
-                "\t2 - Da Poupança para accounts.Conta Corrente \n" +
-                "4 - Consultar Transações \n" +
-                "5 - Consultar Saldo \n" +
-                "0 - Sair\n");
+        int opcao;
 
-        String option = inData.nextLine();
+        do {
+            System.out.println("\n--- SISTEMA BANCÁRIO ---");
+            System.out.println("Informe o número da opção desejada:");
+            System.out.println("1 - Depositar");
+            System.out.println("2 - Sacar");
+            System.out.println("3 - Transferir");
+            System.out.println("4 - Consultar Transações");
+            System.out.println("5 - Consultar Saldo");
+            System.out.println("0 - Sair");
 
-        switch (option) {
-            case "1": // depositar
-                ContaCorrente deposit = new ContaCorrente(1010101, 1000, cli);
+            opcao = inData.nextInt();
 
-                System.out.println("Informe o valor para realizar o depósito!");
-                deposit.depositar(inData.nextDouble());
-                break;
-            case "2": // sacar
-                ContaCorrente sake = new ContaCorrente(1010101, 1000, cli);
+            switch (opcao) {
+                case 1 -> {
+                    System.out.print("Valor do depósito: ");
+                    double valor = inData.nextDouble();
+                    contaCorrente.depositar(valor);
+                }
 
-                System.out.println("Informe o valor para realizar o saque!");
-                sake.sacar(inData.nextDouble());
-                break;
-            case "3": // Transferir
-                ContaCorrente transfer = new ContaCorrente(1010101, 1000, cli);
+                case 2 -> {
+                    System.out.print("Valor do saque: ");
+                    double valor = inData.nextDouble();
+                    contaCorrente.sacar(valor);
+                }
 
-                System.out.println("Informe o valor para realizar o saque!");
-                transfer.transferir(transfer, inData.nextDouble());
-                break;
-            case "4": // Consultar Transações
-                ContaCorrente consultTransfer = new ContaCorrente(1010101, 1000, cli);
+                case 3 -> {
+                    System.out.println("1 - Conta Corrente → Poupança");
+                    System.out.println("2 - Poupança → Conta Corrente");
+                    int tipo = inData.nextInt();
 
-                consultTransfer.consultarTransferencias();
-                break;
-            case "5": // Consultar Saldo
-                ContaCorrente consultBalance = new ContaCorrente(1010101, 1000, cli);
+                    System.out.print("Valor da transferência: ");
+                    double valor = inData.nextDouble();
 
-                consultBalance.consultarSaldo();
-                break;
-            case "0": // Sair
+                    if (tipo == 1) {
+                        contaCorrente.transferir(contaPoupanca, valor);
+                    } else if (tipo == 2) {
+                        contaPoupanca.transferir(contaCorrente, valor);
+                    } else {
+                        System.out.println("Opção inválida.");
+                    }
+                }
 
-                break;
-        }
+                case 4 -> contaCorrente.consultarTransferencias();
+
+                case 5 -> contaCorrente.consultarSaldo();
+
+                case 0 -> System.out.println("Encerrando sistema...");
+
+                default -> System.out.println("Opção inválida.");
+            }
+
+        } while (opcao != 0);
     }
 }

@@ -12,15 +12,12 @@ public class ContaPoupanca extends Conta {
     }
 
     @Override
-    public void transferir(Conta destino, double valor) {
-        if (valor < 500) {
-            numero = destino.numero;
-            destino.saldo += valor;
-            saldo -= valor;
-        } else {
-            System.out.println("Não é possível efetuar essa transação! Transferências para Poupança não podem ultrapassar o " +
-                    "valor individual de 500 reais.");
+    public void depositar(double valor) {
+        if (valor > 500) {
+            System.out.println("Transferência para poupança não pode ultrapassar 500 reais.");
+            return;
         }
-        registrarTransacao(TipoTransacao.TRANSFERENCIA, valor);
+
+        super.depositar(valor);
     }
 }

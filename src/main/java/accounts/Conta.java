@@ -21,7 +21,43 @@ public abstract class Conta {
         this.transacoes = new ArrayList<>();
     }
 
+    public int getNumero() {
+        return numero;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public Cliente getTitular() {
+        return titular;
+    }
+
+    public List<Transacao> getTransacoes() {
+        return transacoes;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public void setTitular(Cliente titular) {
+        this.titular = titular;
+    }
+
+    public void setTransacoes(List<Transacao> transacoes) {
+        this.transacoes = transacoes;
+    }
+
     public void sacar(double valor) {
+        if (valor > saldo) {
+            System.out.println("Saldo insuficiente.");
+            return;
+        }
         saldo -= valor;
         registrarTransacao(TipoTransacao.SAQUE, valor);
     }
@@ -32,10 +68,8 @@ public abstract class Conta {
     }
 
     public void transferir(Conta destino, double valor) {
-        numero = destino.numero;
-        destino.saldo += valor;
-        saldo -= valor;
-
+        this.sacar(valor);
+        destino.depositar(valor);
         registrarTransacao(TipoTransacao.TRANSFERENCIA, valor);
     }
 
@@ -44,8 +78,8 @@ public abstract class Conta {
         System.out.println("Saldo: " + saldo);
     }
 
-    public void consultarTransferencias () {
-        transacoes.stream().forEach(System.out::println);
+    public void consultarTransferencias() {
+        transacoes.forEach(System.out::println);
     }
 
     public void registrarTransacao(TipoTransacao tipo, double valor) {
