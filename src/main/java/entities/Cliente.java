@@ -9,12 +9,15 @@ public class Cliente {
     private String nome;
     private String cpf;
     private String email;
+    private String senha;
+    private String loginConta;
     private List<Conta> contas;
 
-    public Cliente(String nome, String cpf, String email) {
+    public Cliente(String nome, String cpf, String email, String senha) {
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
+        this.senha = senha;
         this.contas = new ArrayList<>();
     }
 
@@ -28,6 +31,14 @@ public class Cliente {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public String getLoginConta() {
+        return loginConta;
     }
 
     public List<Conta> getContas() {
@@ -44,6 +55,14 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setLoginConta(String loginConta) {
+        this.loginConta = loginConta;
     }
 
     public void setContas(List<Conta> contas) {
